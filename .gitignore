@@ -1,0 +1,9 @@
+.nyc_output
+coverage
+node_modules/
+package-lock.json
+yarn.lock
+lib/
+*.d.ts
+*.js
+*.js.map

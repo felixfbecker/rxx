@@ -1,0 +1,23 @@
+{
+  "extends": "./node_modules/@sourcegraph/tsconfig/tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "lib",
+    "target": "es2017",
+    "sourceMap": true,
+    "declaration": true,
+    "jsx": "react",
+    "jsxFactory": "rxx.createElement",
+    "lib": [
+      "dom",
+      "es2017"
+    ]
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "lib/"
+  ]
+}

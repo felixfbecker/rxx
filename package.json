@@ -1,0 +1,46 @@
+{
+  "name": "rxx",
+  "version": "0.0.1",
+  "description": "Reactive JSX",
+  "author": "Felix Becker <felix.b@outlook.com>",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc -p .",
+    "watch": "tsc -p . -w",
+    "lint": "tslint -c tslint.json -p .",
+    "test": "mocha -r source-map-support/register 'lib/test/**/*.js'"
+  },
+  "keywords": [
+    "jsx",
+    "reactive",
+    "rxjs",
+    "rx",
+    "reactivex",
+    "observable"
+  ],
+  "dependencies": {
+    "rxjs": "^5.5.0"
+  },
+  "devDependencies": {
+    "@sourcegraph/tsconfig": "^1.0.1",
+    "@sourcegraph/tslint-config": "^6.0.0",
+    "@types/jsdom": "^11.0.2",
+    "@types/mocha": "^2.2.43",
+    "@types/node": "^8.0.46",
+    "jsdom": "^11.2.0",
+    "mocha": "^4.0.1",
+    "source-map-support": "^0.5.0",
+    "tslint": "^5.8.0",
+    "typescript": "^2.5.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/felixfbecker/rxx.git"
+  },
+  "bugs": {
+    "url": "https://github.com/felixfbecker/rxx/issues"
+  },
+  "homepage": "https://github.com/felixfbecker/rxx#readme"
+}

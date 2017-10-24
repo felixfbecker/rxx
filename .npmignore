@@ -1,0 +1,10 @@
+src/
+.vscode/
+lib/test/
+node_modules/
+tsconfig.json
+tslint.json
+yarn.lock
+.gitignore
+.travis.yml
+.editorconfig
