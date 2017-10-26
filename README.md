@@ -18,20 +18,21 @@ npm install --save rxx
 
 ## Usage
 ```jsx
-import * as rxx from 'rxx';
+import * as rxx from 'rxx'
+import { Observable, Subject } from 'rxjs'
 
 const Counter = () => {
     const increments = new Subject()
     const decrements = new Subject()
 
-    const count = merge(increments.mapTo(1), decrements.mapTo(-1))
+    const count = Observable.merge(increments.mapTo(1), decrements.mapTo(-1))
         .scan((prev, change) => prev + change, 0)
 
     return (
         <div>
             {count}
             <button onclick={() => increments.next()}>+</button>
-            <button onclick={() => decrements.next()}>-</button>   
+            <button onclick={() => decrements.next()}>-</button>
         </div>
     )
 }
@@ -40,7 +41,7 @@ document.body.appendChild(<Counter />)
 ```
 
 
-## Configuration 
+## Configuration
 
 ### TypeScript
 

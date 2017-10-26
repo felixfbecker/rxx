@@ -1,6 +1,7 @@
 src/
 .vscode/
 lib/test/
+lib/examples/
 node_modules/
 tsconfig.json
 tslint.json
