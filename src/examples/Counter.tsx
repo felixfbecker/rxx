@@ -5,8 +5,8 @@ import { Subject } from 'rxjs/Subject'
 import * as rxx from '../index'
 
 export const Counter = () => {
-    const increments = new Subject()
-    const decrements = new Subject()
+    const increments = new Subject<void>()
+    const decrements = new Subject<void>()
 
     const count = merge(
         increments.pipe(mapTo(1)),
