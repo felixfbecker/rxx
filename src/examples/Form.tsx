@@ -16,66 +16,70 @@ export interface Props {
     usernames: Observable<string>
 }
 
-export const Form = ({ usernames }: Props): JSX.Element => {
+export class Form extends HTMLElement {
 
-    const alertDismisses = new Subject<void>()
-    const firstNameValues = new Subject<string>()
-    const lastNameValues = new Subject<string>()
-    const submits = new Subject<void>()
-    const saving = new Subject<boolean>()
-    const errors = new Subject<any>()
+    private alertDismisses = new Subject<void>()
+    private firstNameValues = new Subject<string>()
+    private lastNameValues = new Subject<string>()
+    private submits = new Subject<void>()
+    private saving = new Subject<boolean>()
+    private errors = new Subject<any>()
 
-    alertDismisses.subscribe(errors)
+    constructor(props: Props) {
+        super()
 
-    usernames
-        .pipe(switchMap(username =>
-            fetchProfile(username)
-                .pipe(catchError(error => {
-                    errors.next(error)
-                    return []
-                }))
-        ))
-        .subscribe()
+        this.alertDismisses.subscribe(this.errors)
 
-    submits
-        .pipe(withLatestFrom(usernames, firstNameValues, lastNameValues))
-        .pipe(concatMap(([, username, firstName, lastName]) =>
-            updateProfile(username, firstName, lastName)
-                .pipe(catchError(error => {
-                    errors.next(error)
-                    return []
-                }))
-        ))
-        .subscribe()
+        props.usernames
+            .pipe(switchMap(username =>
+                fetchProfile(username)
+                    .pipe(catchError(error => {
+                        this.errors.next(error)
+                        return []
+                    }))
+            ))
+            .subscribe()
 
-    return (
-        <div>
-            <h1>Profile</h1>
+        this.submits
+            .pipe(withLatestFrom(props.usernames, this.firstNameValues, this.lastNameValues))
+            .pipe(concatMap(([, username, firstName, lastName]) =>
+                updateProfile(username, firstName, lastName)
+                    .pipe(catchError(error => {
+                        this.errors.next(error)
+                        return []
+                    }))
+            ))
+            .subscribe()
 
-            {
-                errors.pipe(map(error => error &&
-                    <div className='alert alert-danger'>
-                        {error.message}
-                        <button onclick={() => alertDismisses.next()}>x</button>
-                    </div>
-                ))
-            }
+        this.appendChild(
+            <div>
+                <h1>Profile</h1>
 
-            {usernames}
+                {
+                    this.errors.pipe(map(error => error &&
+                        <div className='alert alert-danger'>
+                            {error.message}
+                            <button onclick={() => this.alertDismisses.next()}>x</button>
+                        </div>
+                    ))
+                }
 
-            <label>
-                First Name
-                <input type='text' value={firstNameValues} onchange={e => firstNameValues.next((e.currentTarget as HTMLInputElement).value)}/>
-            </label>
+                {props.usernames}
 
-            <label>
-                Last Name
-                <input type='text' value={lastNameValues} onchange={e => lastNameValues.next((e.currentTarget as HTMLInputElement).value)}/>
-            </label>
+                <label>
+                    First Name
+                    <input type='text' value={this.firstNameValues} onchange={e => this.firstNameValues.next((e.currentTarget as HTMLInputElement).value)}/>
+                </label>
 
-            <button type='submit' disabled={saving} onsubmit={() => submits.next()}>Update</button>
+                <label>
+                    Last Name
+                    <input type='text' value={this.lastNameValues} onchange={e => this.lastNameValues.next((e.currentTarget as HTMLInputElement).value)}/>
+                </label>
 
-            {saving.pipe(map(isLoading => isLoading && 'Loading...'))}
-        </div>
-    )
+                <button type='submit' disabled={this.saving} onsubmit={() => this.submits.next()}>Update</button>
+
+                {this.saving.pipe(map(isLoading => isLoading && 'Loading...'))}
+            </div>
+        )
+    }
 }
